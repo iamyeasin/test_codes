@@ -15,8 +15,8 @@ void gi()
     {
         int x,y;
         cin>>x>>y;
-        in[y].push_back(x);
-        out[x].push_back(y);
+        in[y].push_back(x); // Taking in the IN degrees
+        out[x].push_back(y); // Taking in the out degrees
         //The graph is undirected
         graph[x].push_back(y);
 //        graph[y].push_back(x);
