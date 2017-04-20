@@ -1,7 +1,17 @@
+/*E= 8  N = 5
+1 2 // nodes
+2 5
+3 2
+3 1
+4 2
+4 5
+4 3
+5 1*/
+
+
 #include<bits/stdc++.h>
 #define sf scanf
 #define pf printf
-#define REP for(int i)
 
 using namespace std;
 
