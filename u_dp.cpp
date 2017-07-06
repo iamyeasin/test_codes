@@ -1,104 +1,57 @@
-/*Get a suitable solution idiot! */
-
 #include<bits/stdc++.h>
-#define sf scanf 
-#define pf printf
 
 using namespace std;
 
-
-int ranks(string s,string ss)
-{
-	
-	if(s == "pedra" && ss == "lagarto")
-		return 1;
-	else if(ss == "pedra" && s == "lagarto")
-		return 2;
-	
-	if(s == "tesoura" && ss == "papel")
-		return 1;
-	else if(ss == "tesoura" && s == "papel")
-		return 2;
-	
-	if(s == "papel" && ss == "pedra")
-		return 1;
-	else if(ss == "papel" && s == "pedra")
-		return 2;
-	
-	if(s == "lagarto" && ss == "Spock")
-		return 1;
-	else if(s == "lagarto" && ss == "Spock")
-		return 2;
-		
-	if(s == "Spock" && ss == "tesoura")
-		return 1;
-	else if(ss == "Spock" && s == "tesoura")
-		return 2;	
-	
-	if(s == "tesoura" && ss == "lagarto")
-		return 1;
-	else if(ss == "tesoura" && s == "lagarto")
-		return 2;
-		
-	if(s == "lagarto" && ss == "papel")
-		return 1;
-	else if(ss== "lagarto" && s == "papel")
-		return 2;
-		
-	if(s == "papel" && ss == "Spock")
-		return 1;
-	else if(ss == "papel" && s == "Spock")
-		return 2;
-		
-	if(s == "Spock" && ss == "pedra") 
-		return 1;
-	else if(ss == "Spock" && s == "pedra")
-		return 2;
-	
-	if(s == "pedra" && ss == "tesoura")
-		return 1;
-	else if(ss == "pedra" && s == "tesoura")
-		return 2;
-		
-		
-	return 0;
-}
-
 int main()
 {
-	//freopen("in.txt","rt",stdin);
-	// freopen("out.txt","wt",stdout);
-	
-	int n;
-	string s3,ss;
-	sf("%d",&n);
-	
-	for(int i=1; i<=n; i++)
-	{
-		cin >> s3 >> ss;
-		
-		if(s3 == ss)
-		{
-			pf("Caso #%d: De novo!\n",i);
-			continue;
-		}
-		
-		// cout << s3 << " " << ss << endl;
-		
-		int nn = ranks(s3,ss);
-		if(nn==1)
-		{
-			pf("Caso #%d: Bazinga!\n",i);
-		}
-		else if(nn==2)
-		{
-			pf("Caso #%d: Raj trapaceou!\n",i);
-		}
+    string s1;
+    getline(cin,s1);
 
-	}
 
-	
-	
-	
-	return 0;
+    char st[123];
+    int len = s1.length();
+
+    if(s1[0] == '-') st[0] = '-';
+    else st[0] = '+';
+
+    int flag=0,dot=-5,fz=0;
+    bool fs=0,dt=false;
+
+
+    for(int i=0; i<len; i++)
+    {
+
+        if((s1[i]-'0') > 0 && !fs)
+        {
+            st[1] = s1[i];
+            fs = true;
+
+            st[2] = '.';dt=true;
+        }
+        else if(s1[i] == '.' && !dt)
+        {
+            st[2] = '.';dt = true;
+        }
+
+        if(s1[i] == '.'){ dot=i;dt=true; }
+    }
+    dot = (dot==-5) ? 0 : dot;
+//    cout << dot << endl;
+
+    int sk = 3;
+
+    for(int i=dot; i<=dot+3; i++)
+    {
+        st[sk++] = s1[i+1];
+    }
+    st[sk++] = (s1[dot+3]-'0' > 5) ? (s1[dot+3]-'0' +1 ) + '0' : s1[dot+3];
+
+
+
+
+    cout << st<< endl;
+
+
+
+    return 0;
 }
