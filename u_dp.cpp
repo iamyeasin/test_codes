@@ -84,11 +84,16 @@ int main()
         {
             int in = 1;
             int k = (s[0] == '-' || s[0] == '+') ? 2 : 1;
+            int zr = zero(s,k);
+            k = (zr > 0) ? zr : k;
+//            cout << k << endl;
+
+
             for(int i=k; i<=4; i++)
             {
-                st[ind++] = i >= len? '0' : s[i];
+                st[ind++] = (i >= len) ? '0' : s[i];
             }
-            if(dec(s[5]) > 0) {st[6]= (st[6]-'0')+1+'0';}
+            if(dec(s[5+k]) > 0) {st[6]= (st[6]-'0')+1+'0';}
 //            cout << ind << endl;
             if(ind < 6)
             {
@@ -103,23 +108,18 @@ int main()
             st[ind++] = '+';
 
             int dig=0,flag=0,fuck;
-            int zr = zero(s,k);
-//            cout << zr << endl;
 
-            fuck = zr>0 ? zr : 1;
-
-            cout << fuck << endl;
-            for(int k=len-1; k>=fuck; k--)
+            cout << zr << endl;
+            if(!zr)
             {
-                if(dec(s[k])>=0 && dec(s[k])<=0)dig++;
+                if(k==2)dig=(len-2);
+                else if(k==1)dig = (len-1);
             }
-//
-            cout << dig << endl;
+            else if(zr>0)
+            {
 
-            if(dig >=1 && dig<=9)st[ind++] = '0';
-
-            pf("%s%d\n",st,dig);
-
+            }
+            cout << st << " " << dig << endl;
         }
 
         else // IF there is a point
