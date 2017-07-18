@@ -1,56 +1,61 @@
 #include<bits/stdc++.h>
 #define sf scanf
 #define pf printf
-#define mx 100090
 
 using namespace std;
 
-char ok[mx];
-
 int main()
 {
-    int n;
-    cin >> n;
+    int mon[256],cred[256],kk[256],pay[256],koto[256],pos[256];
+    int n,b;
 
-    sf("%s",ok);
-
-    int arr[mx];
-    int i=0,sum=0,f=0,zero=0;
-    while(i < n)
+    while(sf("%d %d",&b,&n,(b||n)))
     {
-        sum = 0;
-        if(ok[i] == '1')
-        {
-            i++;sum++;
+        for(int i=1; i<=b; i++)sf("%d",&mon[i]);
 
-            while(ok[i] == '1')
+        memset(pay,0,sizeof(pay));
+        memset(cred,0,sizeof(cred));
+        memset(koto,0,sizeof(koto));
+        memset(kk,0,sizeof(kk));
+
+        for(int i=1; i<=n; i++)
+        {
+            int d,c,v;
+            sf("%d %d %d",&d,&c,&v);
+
+            if(mon[d] >= v)
             {
-                sum++;
-                i++;
+                mon[c] += v;
+                mon[d] -= v;
+                cred[c]++;
             }
-            arr[f++] = sum;
-            sum = 0;
+            else
+            {
+                mon[c] += v;
+                koto[d] = v- mon[d];
+                mon[d] = 0;
+                pay[d] = c;
+                kk[d] = d;
+            }
         }
 
-        if(ok[i] == '0')
+        for(int i=1; i<=n; i++)
         {
-            i++; sum++;
-            while(ok[i] == '0')
+            if(pay[i]>0)
             {
-                sum++;
-                i++;
+                cout << cred[i] << endl;
             }
-            if(sum > 1) arr[f++] = 0;
+            cout << cred[i] << endl;
+
+
+//            pf("%d number bank %d number bank er kase %d taka pay\n",pay[i],kk[i],koto[i]);
+//            pf("Credits = %d\n", mon[i]);
         }
+
+
     }
 
-    for(int k=0; k<f; k++)
-    {
-        pf("%d",arr[k]);
-    }
-    pf("\n");
 
 
     return 0;
-
 }
