@@ -1,59 +1,71 @@
 #include<bits/stdc++.h>
-#define sf scanf
-#define pf printf
 
 using namespace std;
 
+bool isLeap(long year)
+{
+    if((!(year%4) || !(year%400)) && (year%100))
+        return true;
+    else
+        return false;
+}
+
+int date[13] = {0, 31,28,31,30,31,30,31,31,30,31,30,31};
+int l_date[13] = {0, 31,29,31,30,31,30,31,31,30,31,30,31};
+
 int main()
 {
-    int mon[256],cred[256],kk[256],pay[256],koto[256],pos[256];
-    int n,b;
+    freopen("in.txt","rt",stdin);
+    freopen("out.txt","wt",stdout);
 
-    while(sf("%d %d",&b,&n,(b||n)))
+    long kase;
+    int cnt, ans, extra;
+    while(scanf("%d",&kase),kase)
     {
-        for(int i=1; i<=b; i++)sf("%d",&mon[i]);
+        cnt = ans = 0;
+        int day[3], month[3], year[3], bill[3];
 
-        memset(pay,0,sizeof(pay));
-        memset(cred,0,sizeof(cred));
-        memset(koto,0,sizeof(koto));
-        memset(kk,0,sizeof(kk));
 
-        for(int i=1; i<=n; i++)
+
+        cin >> day[1] >> month[1] >> year[1] >> bill[1];
+
+        for(int i=1; i<kase; i++)
         {
-            int d,c,v;
-            sf("%d %d %d",&d,&c,&v);
 
-            if(mon[d] >= v)
-            {
-                mon[c] += v;
-                mon[d] -= v;
-                cred[c]++;
+            cin >> day[2] >> month[2] >> year[2] >> bill[2];
+            if(month[1] == month[2] && year[1] == year[2]){
+                if(day[1] == day[2]-1){
+                        ans += abs(bill[1]-bill[2]);
+                        cnt++;
+                }
             }
-            else
-            {
-                mon[c] += v;
-                koto[d] = v- mon[d];
-                mon[d] = 0;
-                pay[d] = c;
-                kk[d] = d;
+            else if(month[1] == month[2]-1 && year[1] == year[2]){
+                if(day[2]==1){
+
+                    int date = isLeap(year[1]) ? 28 : 29;
+                    if( (isLeap(year[1]) && day[1] == l_date[ month[1] ] ) || (!(isLeap(year[1]) && day[1] == date[ month[1] ] ) ) ){
+                           ans += abs(bill[1]-bill[2]);
+                            cnt++;
+                       }
+                }
+
             }
+            else if(year[2]-1 == year[1] ){
+                if( day[1]==31 && month[1]==12 && day[2]==1 && month[2]==1){
+                    ans += abs(bill[1]-bill[2]);
+                            cnt++;
+                }
+            }
+
+
+            day[1] = day[2], month[1] = month[2], year[1] = year[2], bill[1] = bill[2];
         }
 
-        for(int i=1; i<=n; i++)
-        {
-            if(pay[i]>0)
-            {
-                cout << cred[i] << endl;
-            }
-            cout << cred[i] << endl;
-
-
-//            pf("%d number bank %d number bank er kase %d taka pay\n",pay[i],kk[i],koto[i]);
-//            pf("Credits = %d\n", mon[i]);
-        }
-
+    cout << cnt << " " << ans << endl;
 
     }
+
+
 
 
 
