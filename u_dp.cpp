@@ -1,72 +1,102 @@
 #include<bits/stdc++.h>
+#define sf scanf
+#define pf printf
 
 using namespace std;
 
-bool isLeap(long year)
+//vector < int > x[81];
+
+int x[12][12];
+int pos1[] = {2,5,7};
+int fx[]={+1,-1,+0,+0};
+int fy[]={+0,+0,+1,-1};
+
+bool cRow()
 {
-    if((!(year%4) || !(year%400)) && (year%100))
-        return true;
-    else
-        return false;
+    int row[10];
+    for(int i=1; i<=9; i++)
+    {
+        for(int i=0; i<10; i++)row[i]=0;
+
+        for(int j=1; j<=9;j++)
+        {
+            if(!row[x[i][j]])row[x[i][j]] = 1;
+            else return false;
+        }
+    }
+    return true;
 }
 
-int date[13] = {0, 31,28,31,30,31,30,31,31,30,31,30,31};
-int l_date[13] = {0, 31,29,31,30,31,30,31,31,30,31,30,31};
+
+
+bool cCol()
+{
+    int row[10];
+    for(int i=1; i<=9; i++)
+    {
+        for(int i=0; i<10; i++)row[i]=0;
+
+        for(int j=1; j<=9;j++)
+        {
+            if(!row[x[j][i]])row[x[j][i]] = 1;
+            else return false;
+        }
+    }
+    return true;
+}
+
+bool isSub()
+{
+    int arr[11] = {0,0,0,0,0,0,0,0,0,0};
+
+    for(int i=0; i<3; i++)
+    {
+        memset(arr,0,sizeof(arr));
+        for(int j=0; j<=3; j++)
+        {
+            arr[pos1[j]] = 1;
+           for(int k=0; k<=3; k++)
+           {
+                int nx = pos1[i] + fx[k];
+                int ny = pos1[j] + fx[k];
+
+                if(!arr[x[nx][ny]])arr[x[nx][ny]] = 1;
+                else return false;
+           }
+        }
+    }
+
+    return true;
+}
 
 int main()
 {
-    freopen("in.txt","rt",stdin);
-    freopen("out.txt","wt",stdout);
+//    freopen("input.txt","rt",stdin);
+//    freopen("output.txt","wt",stdout);
 
-    long kase;
-    int cnt, ans, extra;
-    while(scanf("%d",&kase),kase)
+    int kase,y;
+    scanf("%d",&kase);
+
+    for(int i=1; i<=kase; i++)
     {
-        cnt = ans = 0;
-        int day[3], month[3], year[3], bill[3];
-
-
-
-        cin >> day[1] >> month[1] >> year[1] >> bill[1];
-
-        for(int i=1; i<kase; i++)
+        for(int j=1; j<=9; j++)
         {
-
-            cin >> day[2] >> month[2] >> year[2] >> bill[2];
-            if(month[1] == month[2] && year[1] == year[2]){
-                if(day[1] == day[2]-1){
-                        ans += abs(bill[1]-bill[2]);
-                        cnt++;
+            for(int k=1; k<=9; k++)
+            {
+                int mm;
+                sf("%d",&mm);
+                if(mm >=1 && mm <=9)
+                {
+                    x[j][k] = mm;
                 }
             }
-            else if(month[1] == month[2]-1 && year[1] == year[2]){
-                if(day[2]==1){
-
-                    int date = isLeap(year[1]) ? 28 : 29;
-                    if( (isLeap(year[1]) && day[1] == l_date[ month[1] ] ) || (!(isLeap(year[1]) && day[1] == date[ month[1] ] ) ) ){
-                           ans += abs(bill[1]-bill[2]);
-                            cnt++;
-                       }
-                }
-
-            }
-            else if(year[2]-1 == year[1] ){
-                if( day[1]==31 && month[1]==12 && day[2]==1 && month[2]==1){
-                    ans += abs(bill[1]-bill[2]);
-                            cnt++;
-                }
-            }
-
-
-            day[1] = day[2], month[1] = month[2], year[1] = year[2], bill[1] = bill[2];
         }
 
-    cout << cnt << " " << ans << endl;
+        if(cRow() && cCol())pf("Instancia %d\nSIM\n\n",i);
+        else pf("Instancia %d\nNAO\n\n",i);
 
+        cout << isSub() << endl;
     }
-
-
-
 
 
     return 0;
