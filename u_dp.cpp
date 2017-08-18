@@ -1,96 +1,66 @@
 #include<bits/stdc++.h>
 #define sf scanf
 #define pf printf
+#define mx 1000005
 
 using namespace std;
 
-int bits[] = {0,32,16,8,4,2,1};
-bool h[64],m[64];
-
-void print(){
-    pf(" ____________________________________________\n");
-    pf("|                                            |\n");
-    pf("|    ____________________________________    |_\n");
-    pf("|   |                                    |   |_)\n");
-    pf("|   |   8         4         2         1  |   |\n");
-    pf("|   |                                    |   |\n");
-    pf("|   |  ");
-
-
-    for(int i=3; i<=7; i++){
-        if(h[i]){
-            pf("o");
-        }
-        else pf(" ");
-
-        if(i < 6 && i>2)pf("         ");
-    }
-
-    pf("  |   |\n");
-    pf("|   |                                    |   |\n");
-    pf("|   |  ");
-
-
-    for(int i=1; i<=7; i++){
-        if(i<=2){
-            if(m[i]){
-                 pf(" o");
-
-            }
-            else pf("  ");
-        }
-        else{
-            if(m[i]){
-                pf("o");
-
-            }
-            else pf(" ");
-        }
-
-        if(i>=1 && i<7)pf("    ");
-    }
-
-
-    pf("  |   |\n");
-
-     pf("|   |                                    |   |\n");
-     pf("|   |   32    16    8     4     2     1  |   |_\n");
-     pf("|   |____________________________________|   |_)\n");
-     pf("|                                            |\n");
-     pf("|____________________________________________|\n");
-
-
-
-
-
-}
-
-
 int main(){
 
-    long hh,mm;
-    while(sf("%d:%d",&hh,&mm) != EOF){
-        memset(m,0,sizeof(m));
-        memset(h,0,sizeof(h));
+    long kase;
+    sf("%ld",&kase);
 
-        for(int i=1; i<=7; i++){
-            if(hh >= bits[i]){
-                h[i] = 1; hh %= bits[i];
-            }
-            if(mm >= bits[i]){
-                m[i] = 1; mm %= bits[i];
-            }
+    static int p[ 1000050 ],l[500],s[500];
+
+    while(kase--){
+
+        memset(p,0,sizeof(p));
+        long player,howls,ndies;
+        cin >> player >> howls >> ndies;
+
+        for(int i=1; i<=howls; i++){
+            int x,y;
+            cin >> x >> y;
+            l[x] = y;
         }
-//
-//        for(int i=1; i<=6; i++){
-//            cout << pow(2,i) << "= " << m[i] <<endl;
+
+//        for(int i=1; i<=100; i++){
+//            cout << "i = " <<i << " " << l[i] << endl;
 //        }
 
-        print();
-        puts("");
+        long n;
+        for(int i=1; i<=ndies; i++){
+            cin >> n;
+            int x=i;
+            if(x > player) {x %= player; if(!x) x=player;}
+
+            if(i<=player){
+                if(l[n+1]){
+                    p[x] = l[n+1];
+                }
+                else p[x] = n+1;
+            }
+            else{
+                if(l[p[x]]){
+                    p[x] = l[p[x]];
+//                    cout << "p[x] " << l[p[x]] <<endl;
+                }
+                else {
+//                    cout << x << " cout " << p[x] << endl;
+
+                    if(p[x] >= 100)p[x] = 100;
+                    else p[x] += n;
+                }
+            }
+
+        }
+
+        for(int i=1; i<=player; i++){
+            pf("Position of player %d is %d.\n",i,p[i]);
+        }
+
 
     }
-
 
 
     return 0;
