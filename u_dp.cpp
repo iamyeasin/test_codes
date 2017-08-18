@@ -1,3 +1,32 @@
+/*
+
+1 4 7
+4 26
+66 7
+23 56
+49 68
+3 4 3
+6 4 5
+6
+
+
+12312
+3 6 10
+4 26
+66 7
+49 68
+73 39
+65 76
+70 72
+3 4 6
+6 6 6
+1 2 3
+6
+
+
+*/
+
+
 #include<bits/stdc++.h>
 #define sf scanf
 #define pf printf
@@ -32,7 +61,7 @@ int main(){
         for(int i=1; i<=ndies; i++){
             cin >> n;
             int x=i;
-            if(x > player) {x %= player; if(!x) x=player;}
+            if(x > player) x=1;
 
             if(i<=player){
                 if(l[n+1]){
@@ -43,15 +72,16 @@ int main(){
             else{
                 if(l[p[x]]){
                     p[x] = l[p[x]];
-//                    cout << "p[x] " << l[p[x]] <<endl;
+                    cout << "p[x] " << l[p[x]] <<endl;
                 }
                 else {
-//                    cout << x << " cout " << p[x] << endl;
+                    cout << n << " cout " << p[x] << endl;
 
                     if(p[x] >= 100)p[x] = 100;
                     else p[x] += n;
                 }
             }
+            x++;
 
         }
 
