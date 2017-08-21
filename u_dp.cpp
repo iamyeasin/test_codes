@@ -1,97 +1,63 @@
-/*
-
-1 4 7
-4 26
-66 7
-23 56
-49 68
-3 4 3
-6 4 5
-6
-
-
-12312
-3 6 10
-4 26
-66 7
-49 68
-73 39
-65 76
-70 72
-3 4 6
-6 6 6
-1 2 3
-6
-
-
-*/
-
-
 #include<bits/stdc++.h>
+#include<cstdio>
+#include<algorithm>
 #define sf scanf
 #define pf printf
-#define mx 1000005
 
 using namespace std;
 
 int main(){
 
-    long kase;
-    sf("%ld",&kase);
+    char num[16],n[16];
+    long long nm;
+    memset(num,'0',sizeof(num));
 
-    static int p[ 1000050 ],l[500],s[500];
+    while(1){
 
-    while(kase--){
+        sf("%s",num);
+        if(num[0] == '0' && num[1] == 0) break; // NEXT ONE MAY BE GOT SOMEHOW INTEGER
+        int counter=0;
 
-        memset(p,0,sizeof(p));
-        long player,howls,ndies;
-        cin >> player >> howls >> ndies;
-
-        for(int i=1; i<=howls; i++){
-            int x,y;
-            cin >> x >> y;
-            l[x] = y;
-        }
-
-//        for(int i=1; i<=100; i++){
-//            cout << "i = " <<i << " " << l[i] << endl;
-//        }
-
-        long n;
-        for(int i=1; i<=ndies; i++){
-            cin >> n;
-            int x=i;
-            if(x > player) x=1;
-
-            if(i<=player){
-                if(l[n+1]){
-                    p[x] = l[n+1];
-                }
-                else p[x] = n+1;
+        while(1){
+            int z=0,sum=0;
+            for(int i=0; i<=3; i++){
+                if(num[i] == '0')z++;
+                sum += (num[i]-'0');
             }
-            else{
-                if(l[p[x]]){
-                    p[x] = l[p[x]];
-                    cout << "p[x] " << l[p[x]] <<endl;
-                }
-                else {
-                    cout << n << " cout " << p[x] << endl;
+            counter++;
+            if(counter > 111 || sum == 0) break;
 
-                    if(p[x] >= 100)p[x] = 100;
-                    else p[x] += n;
-                }
+            long long f = atol(num);
+            long long sq = f*f,x,y;
+            char temp[16],fin[16];
+            memset(fin,'\0',sizeof(fin));
+
+            x = sq;
+
+            int ii=0;
+            while(x>0){
+                temp[ii++] = x%10 + '0';
+                x /= 10;
             }
-            x++;
+            temp[ii] = '\0';
+            reverse(temp,temp+ii);
 
+            int k=0,i,ik;
+            for(i=0; i<(8-ii)/2; i++)fin[i]='0';
+            for(ik = i; ik<=ii; ik++) fin[ik] = temp[k++];
+            for(int j = ik; j<8; j++)fin[j] = '0';
+            fin[8] = '\0';
+
+            num[0] = fin[2]; num[1] = fin[3];
+            num[2] = fin[4]; num[3] = fin[5];
+            num[4] = '\0';
+
+            cout << counter << " ";
+            puts(num);
         }
 
-        for(int i=1; i<=player; i++){
-            pf("Position of player %d is %d.\n",i,p[i]);
-        }
-
-
+        cout << counter << endl;
     }
-
 
     return 0;
 }
