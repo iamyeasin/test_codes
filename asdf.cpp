@@ -1,60 +1,75 @@
 #include<bits/stdc++.h>
-#define sf scanf
-#define pf printf
 
 using namespace std;
 
-string bigNum;
+vector < string > s;
 
-void bigDiv(){
+int main(){
 
-    int len = bigNum.size();
-    string qut;
+    long n;
+    cin >> n;
 
-    int carry = 0;
-    for(int i=0; i<len; i++){
+    //input taking
+    for(int i=0; i<n; i++){
+        string token;
+        cin >> token;
+        s.push_back(token);
+    }
 
-        int x = (bigNum[i] - '0') + carry;
-        if(x > 0){
-            if(x < 2){
-                qut += (0 +'0');
-                carry = 10;
-            }else{
+    long till; cin >> till;
+    for(int k=0; k<till; k++){
+        string test;
+        cin >> test;
+        int f=0;
 
-                qut += ((x >> 1) +'0');
-                if(((x << 1) - x) == 0){
-                    carry = 0;
-                }
-                else carry = 10;
+        //if it exists on the container
+        for(int i=0; i<n; i++){
+            if(s[i] == test){
+                cout << test << " is correct" << endl;
+                f=1;
             }
         }
-        else if(x == 0) qut += '0';
-    }
-    cout << qut << endl;
+        if(f)continue;
+        int ok = 0;
 
+        int l1 = test.size();
+
+        for(int i=0; i<n; i++){
+            ok=1;
+            int l2 = s[i].size();
+            string gini = s[i];
+                if(l1 == l2){
+                    sort(gini.begin(),gini.end());
+                    sort(test.begin(),test.end());
+
+                    if(gini == test){
+                        cout << test << " is a misspelling of " << s[i] << endl;ok=1;
+                        break;
+                    }
+
+        }
+//        if(ok)continue;
+
+        int pro = 0;
+        for(int m=0; m<n; m++){
+            int l2 = s[m].size();
+            string ginis = s[m];
+
+            if(l1 >= l2 || (l2-1 == l1) || (l2+1 == l1) ){
+                sort(ginis.begin(),ginis.end());
+                sort(test.begin(),test.end());
+                pro =0;
+
+                for(int x=0; x<(max(l1,l2)); x++){
+                    if(ginis[x] != test[x]) pro++;
+                }
+                cout << pro << endl;
+                break;
+            }
+        }
+
+    }
 
 }
 
-
-
-int main(){
-//    freopen("input.txt","rt",stdin);
-//    freopen("output.txt","wt",stdout);
-
-    long kase;
-
-    while(1){
-        cin >> bigNum;
-    bigDiv();
-
-    }
-
-
-//
-//    for(int i=1; i<=kase; i++){
-//        long odP = 0;
-//
-//    }
-
-    return 0;
 }
