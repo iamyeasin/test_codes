@@ -32,8 +32,8 @@ int get_ind(int n){ // 0 based index will return
 
 
 int main(){
-    freopen("in.txt","rt",stdin);
-    freopen("out.txt","wt",stdout);
+//    freopen("in.txt","rt",stdin);
+//    freopen("out.txt","wt",stdout);
 
     int kase,minR;
     scanf("%d",&kase);
@@ -49,13 +49,22 @@ int main(){
         for(int j=1; j<=q; j++){
             int x,y;
             scanf("%d %d",&x,&y);
+
             int pos1 = get_ind(x);
             int pos2 = get_ind(y);
 
             minR = (pos2-pos1);
+
+            if(pos1 == pos2 && pos1 > 0) {
+                printf("0\n");
+                continue;
+            }
             if(minR > 0) minR -= 1;
-            if(arr[pos2] >= x) minR += 1;
-            if(arr[pos1] == x || pos1 <= 0) minR += 1;
+
+            cout << pos1 << " " << pos2 << " " << minR << endl;
+//            if(x <= arr[pos1] && pos1 >= 0) minR += 1;
+//            if(y >= arr[pos2] && pos2 <= hi) minR += 1;
+//            if(x  arr[pos2])
 
             printf("%d\n",minR);
             minR = 0;
