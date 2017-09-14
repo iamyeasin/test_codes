@@ -1,6 +1,4 @@
-#include<bits/stdc++.h>
-
-using namespace std;
+#include<stdio.h>
 
 int arr[123456];
 int hi,lo;
@@ -12,18 +10,17 @@ int get_ind(int n){ // 0 based index will return
     int h = hi-1;
 
     flag = 0    ;
-    if(arr[l] == n ) { flag = 1 ; return l; }
-    if(arr[h] <= n ) { if(arr[h] == n)flag = 1;  return h; }
+    if(arr[l] == n ) { return l; }
+    if(arr[h] <= n ) { return h; }
 
     while(l < h){
         int mid = (l+h)/2;
-        if(arr[mid] )
-        if(abs(l-h) == 1 && arr[mid] != n){
-
+        int ne = (l-h) < 0 ? (h-l) : (l-h) ;
+        if( ne == 1 && arr[mid] != n){
             if(arr[l] < arr[h]) return mid;
         }
 
-        if( arr[mid] == n ){flag = 1; return mid;}
+        if( arr[mid] == n ){return mid;}
         else if( arr[mid] < n) l = mid;
         else h = mid;
     }
@@ -54,24 +51,18 @@ int main(){
             int pos2 = get_ind(y);
 
             minR = (pos2-pos1);
-
-            if(pos1 == pos2 && pos1 > 0) {
-                printf("0\n");
-                continue;
-            }
             if(minR > 0) minR -= 1;
 
-            cout << pos1 << " " << pos2 << " " << minR << endl;
-//            if(x <= arr[pos1] && pos1 >= 0) minR += 1;
-//            if(y >= arr[pos2] && pos2 <= hi) minR += 1;
-//            if(x  arr[pos2])
+            if(x <= arr[pos1]) minR += 1;
+            if(y >= arr[pos2]) minR += 1;
+            if(minR > 0 && (pos1 == pos2)) minR--;
 
             printf("%d\n",minR);
             minR = 0;
         }
 
-
     }
+
 
     return 0;
 
