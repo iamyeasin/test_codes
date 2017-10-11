@@ -1,63 +1,90 @@
 #include<bits/stdc++.h>
+#include<cstdio>
+#include<algorithm>
 #define pf printf
 #define sf scanf
+#define mx 100
 
 using namespace std;
+vector< string > vs;
+vector< string > srs;
 
-map < string , int > mp;
-set < string > st;
-map <string , int > ::iterator it;
+bool isPrime(int n, int x){
+    int sum = n+x;
+    int sz = sqrt(sum);
 
-void printCombination(int idx, char *data , char *arr, int r , int n, int start){
-    if(r == idx) {
+    if(sum<3) return true;
+    if(!(sum&1)) return false;
 
-        string ss = "";
-        for(int i=0; i<idx; i++){
-            ss += data[i];
+    for(int i=3; i<= sz; i+=2){
+        if(!(sum%i)){
+            return false;
         }
-        // cout << ss << endl; return ;
-       string cpy = ss;
-       sort(cpy.begin(), cpy.end());
+    }
+    return true;
 
-       if(!mp[cpy]){
-        mp[cpy] ++;
-//        cout << ss << endl;
-        st.insert( ss );
+}
+
+void backTrack(string soFar, string rest, int lim){
+    if(soFar.size() == lim){
+        int x =  ( soFar[soFar.size()-1] ) - '0' ;
+        int y =  ( soFar[0] ) - '0';
+        int sz = soFar.size();
+
+        if(soFar[0] != '1' || !isPrime(x, y)) return;
+            for(int i=0; i<sz; i++){
+                pf("%c ", soFar[i]);
+            }
+            puts("");
+
+//        string demo = "";
+//
+//        for( int i=0; i<sz; i++){
+//            if(i == 0){
+//                demo += soFar[i];
+//            }
+//            else if(i < sz){
+//                demo = (demo + " ") + soFar[i];
+//            }
+//            else if(i == sz-1){
+//                demo += soFar[i];
+//            }
+//        }
+//
+//        cout << demo << endl;
+
         return;
-       }
     }
 
-    for(int j=start; j<n; j++){
-        data[idx] = arr[j];
-        printCombination(idx+1, data, arr, r, n, j+1);
+    for(int i=0; i<rest.size(); i++){
+        string remaining = rest.substr(0,i) + rest.substr(i+1);
+        int x =  ( soFar[soFar.size()-1] ) - '0' ;
+        int y =  ( rest[i] ) - '0';
+        if(isPrime(x,y))
+         backTrack(soFar+ rest[i] , remaining, lim);
     }
 
 }
 
 
 int main(){
-    char arr[34], data[23];
 
-    while( sf("%s",arr) ,arr){
-        int n,r;
-        scanf("%d",&r);
-        n = strlen(arr);
-        printCombination(0, data, arr, r, n, 0);
+//    freopen("in.txt","rt",stdin);
+//    freopen("out.txt","wt",stdout);
 
-        sort (st.begin(), st.end() );
-        while(!st.empty()){
-            cout << st.front() << endl;
-            st.pop();
-        }
+    int n,T=0, arr[2342],ans[2343];
 
-        mp.clear();
-        st.clear();
+    while(sf("%d",&n) == 1){
+        string soFar = "";
+        string rest = "";
+        for(int i=0; i<n; i++) rest += ((i+1) +'0');
 
-        memset(arr,'\0',sizeof(arr));
+        //cout << rest << endl;
 
-
+        if(T >= 1) puts("");
+        pf("Case %d:\n",++T);
+        backTrack( soFar,rest ,n);
     }
 
     return 0;
 }
-
