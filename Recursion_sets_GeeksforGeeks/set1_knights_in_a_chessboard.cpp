@@ -27,24 +27,27 @@ void printSolution(int sol[N][N]){
     }
 }
 
-int solve(int idx, int x, int y, int x_move[N], int y_move[N], int sol[N][N]){
+void solve(int idx, int x, int y, int x_move[N], int y_move[N], int sol[N][N], int flag){
     if(idx == N*N){
-        return true;
+        printSolution(sol);
+        flag=1;
+        puts("");
+        return;
     }
 
-    for(int i=0; i<8; i++){
+    for(int i=0; (i<8); i++){
         int next_x = x + x_move[i];
         int next_y = y + y_move[i];
 
         if(issafe(next_x, next_y,sol)){
             sol[next_x][next_y] = idx;
 
-            if(solve(idx+1, next_x, next_y, x_move, y_move, sol)) return true;
-            else sol[next_x][next_y] = -1;
+            solve(idx+1, next_x, next_y, x_move, y_move, sol,flag);
+            sol[next_x][next_y] = -1;
         }
 
     }
-    return false;
+    return;
 }
 
 
@@ -66,13 +69,8 @@ int main(){
     int y_move[8] = {  1, 2,  2,  1, -1, -2, -2, -1 };
 
     sol[0][0] = 0;
-    int ans = solve(1, 0, 0, x_move, y_move, sol);
-   // cout << ans << endl;
+    solve(1, 0, 0, x_move, y_move, sol,0);
 
-    if(ans){
-        printSolution(sol);
-    }
-    else pf("No solution found!");
 
 
     return 0;
