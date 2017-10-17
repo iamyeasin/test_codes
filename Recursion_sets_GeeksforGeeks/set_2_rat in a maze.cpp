@@ -1,4 +1,3 @@
-
 #include<bits/stdc++.h>
 #define sf scanf
 #define pf printf
@@ -25,50 +24,57 @@ void solve(int idx, int x, int y){
 //            cout << next_move << " " <<  neyt_move << endl;
             sol[next_move][neyt_move] = 1;
             solve(idx+1,next_move, neyt_move);
-            arr[next_move][neyt_move] = 0;
+           // arr[next_move][neyt_move] = 0;
         }
 
     }
 }
 
-void printSolution(int x, int y, int sol[10][10], int n,string ans){
 
-//    if(x >= 0 && x < n && y >= 0 && y < n ){
-        if(x >= n || y>= n) {
-            cout << "base case" << endl;
-            return;
-        }
-//
-//        cout << x << " " << y << endl;
+void findSolution( int n, int x, int y, string ans){
+    if(x == (n-1) && y == (n-1)){
+        cout << "Ans = " << ans << endl;
+        return;
+    }
+//    cout << x << " " << y << endl;
 
-        if(sol[x-1][y] == 1){ // Left
-            cout << "L" << endl;
-            ans += 'L';
-            printSolution(x-1, y, sol,n, ans);
-        }
-        else if(sol[x][y-1] == 1){
-            cout << "D" << endl;
-            ans += 'D';
-            printSolution(x, y-1, sol,n, ans);
-        }
-        else if(sol[x][y+1] == 1){
-            cout << "U" << endl;
-            ans += 'U';
-            printSolution(x, y+1,sol,n, ans);
-        }
-        else if(sol[x+1][y] == 1){
-            cout << "R" << endl;
-            ans += 'R';
-            printSolution(x+1, y, sol,n, ans);
-        }
-////        cout << ans << endl;
-//    }else {
-//            cout << ans << endl;
-//            return;
-//        }
+    if(sol[x+1][y] == 1){
+//        cout << "D" << endl;
+        ans += "D";
+        //sol[x][y] = 2;
+        findSolution(n, x+1, y, ans);
+        sol[x+1][y]=0;
+    }
 
+    if(sol[x-1][y] == 1){
+//        cout << "U" << endl;
+        ans += "U";
+        //sol[x][y] = 2;
+        findSolution(n, x-1, y, ans);
+        sol[x-1][y] = 0;
+    }
+
+    if(sol[x][y+1] == 1){
+//        cout << " R " << endl;
+        ans += "R";
+      //  sol[x][y] = 2;
+        findSolution(n,x,y+1,ans);
+        sol[x][y+1] = 0;
+    }
+
+    if(sol[x][y-1] == 1){
+//        cout << "L" << endl
+        ans += "L";
+//        sol[x][y] = 1;
+        findSolution(n, x, y-1, ans);
+        sol[x][y-1] = 0;
+    }
+//    sol[x][y] = 0;
 
 }
+
+
+
 
 int main(){
     int kase;
@@ -98,10 +104,16 @@ int main(){
         }
 
 //        cout << sol[1][1] << endl;
+//        printSolution(0,0,sol,N, "");
+        findSolution(N, 0,0, "");
 
+        for(int i=0; i<N; i++){
+            for(int j=0; j<N; j++){
+                cout << sol[i][j];
+            }
+            cout << endl;
 
-        printSolution(0,0,sol,N, "");
-
+        }
 
     }
 
