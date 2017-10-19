@@ -26,7 +26,6 @@ void backTrack(int idx, int n, int t, int sum){
          if(flag) continue;
 
         if(!taken[i]){
-            till = idx;
             int s = sum + arr[i];
             if(s <= n){
                taken[i] = 1;
@@ -44,8 +43,8 @@ void backTrack(int idx, int n, int t, int sum){
 
 int main(){
 
-////    freopen("input.txt", "rt", stdin);
-////    freopen("output.txt", "wt", stdout);
+//    freopen("in.txt", "rt", stdin);
+//    freopen("out.txt", "wt", stdout);
 
     int n,t;
     while( sf("%d %d",&n, &t) == 2){
@@ -81,4 +80,3 @@ int main(){
 
     return 0;
 }
-
