@@ -1,67 +1,84 @@
 #include<bits/stdc++.h>
+#define sf scanf
+#define pf printf
 
 using namespace std;
 
-struct info{
-    char name[22];
-    int money=0;
-} ;
+int arr[1234],taken[1234], ans[1234], ans2[1234],fsum=0,till=0;
+bool flag=0;
 
-int n;
-info arr[3005];
+void backTrack(int idx, int n, int t, int sum){
+    if(sum == n){
+        for(int i=0; i<idx; i++)pf("%d ",ans[i]);
+        pf("sum:%d\n",sum);
+        flag = 1;
+        return;
+    }
 
-void addMoney(char *names, int money){
-    for(int i=1; i<=n; i++){
-        if(!strcmp(names,arr[i].name)){
-            arr[i].money += (money);
+    if(sum > fsum){
+        fsum = sum, till = idx;
+        for(int i=0; i<idx; i++){
+            ans2[i] = ans[i];
         }
     }
+
+    for(int i=0; i<t; i++){
+         if(flag) continue;
+
+        if(!taken[i]){
+            till = idx;
+            int s = sum + arr[i];
+            if(s <= n){
+               taken[i] = 1;
+               ans[idx] = arr[i];
+               backTrack(idx+1, n, t, s);
+            }
+            taken[i] = false;
+        }
+    }
+
+
+
 }
 
 
 int main(){
 
-//    freopen("in.txt","rt",stdin);
-//    freopen("out.txt","wt",stdout);
+////    freopen("input.txt", "rt", stdin);
+////    freopen("output.txt", "wt", stdout);
 
-    int m = 0;
-    while(scanf("%d",&n) != EOF){
-            if(m > 0)puts("");
-            for(int i=1; i<= n; i++){
-                scanf("%s",&arr[i].name);
+    int n,t;
+    while( sf("%d %d",&n, &t) == 2){
+        int tsum = 0 ;
+        for(int i=0; i<=t; i++){
+            arr[i] = ans[i] = ans2[i] = taken[i] = 0;
+            flag=fsum=0;
+        }
+
+        for(int i=0; i<t; i++){
+            sf("%d",arr+i);
+            tsum += arr[i];
+        }
+
+        if(tsum < n) {
+            for(int i=0; i<t; i++)pf("%d ",arr[i]);
+            pf("sum:%d\n",tsum);
+            continue;
+        }
+
+        backTrack(0,n,t,0);
+
+        if(!flag){
+            for(int i=0; i<till; i++){
+                pf("%d ",ans2[i]);
             }
-            m++;
-
-        int frns=0, amnt=0;
-
-        for(int i=1; i <= n; i++){
-            char words[20];
-            scanf("%s %d %d",words,&amnt,&frns);
-                int each;
-                if(frns > 0) each = (amnt/frns);
-                addMoney(words,(-1*amnt));
-                if((amnt - (each*frns) ) > 0) addMoney(words,(amnt - (each*frns)));
-
-                for(int i=1; i<=frns; i++){
-                        char ns[22];
-                       scanf("%s",ns);
-                       addMoney(ns,each);
-                }
-        }
-
-        for(int i=1; i <= n; i++){
-            if(i == n) printf("%s %d\n",arr[i].name, arr[i].money);
-            else printf("%s %d\n",arr[i].name, arr[i].money);
-        }
-
-        for(int i=1; i<=n; i++){
-            arr[i].money = 0;
+            pf("sum:%d\n",fsum);
         }
 
 
     }
 
 
-
     return 0;
 }
+
