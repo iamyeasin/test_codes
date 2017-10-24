@@ -1,95 +1,84 @@
 #include<bits/stdc++.h>
-#define sf scanf
 #define pf printf
+#define sf scanf
 
 using namespace std;
 
-int n,arr[1234],taken[1234], ans[1234], ans2[1234],fsum,till=0;
-bool flag;
-vector < pair<int,int> > v;
+char arr[1234],ans[1234];
+bool taken[1234],flag=0,printed=0;
+int k=0; unsigned long long int n;
 
-void backTrack(int idx, int j, int t, int sum){
-    if(sum == n){
-       // for(int i=0; i<idx; i++)pf("%d ",ans[i]);
-       // pf("sum:%d\n",sum);
-        fsum = sum, till = idx;
-        for(int i=0; i<idx; i++){
-            ans2[i] = ans[i];
-           // pf("%d ",ans[i]);
-        }
-        flag = 1;
+unsigned long long int f[25];
+
+void fact(){
+    f[0] = 1;
+    f[1] = 1;
+    for(int i=2; i<=22; i++){
+        f[i] = i * f[i-1];
+    }
+}
+
+void backTrack(int idx, int  st,int len){
+    if(idx == len){
+        ans[idx] = '\0';
+        puts(ans);
+
+        if(flag) st = 0;
+        else flag = 1;
         return;
     }
-    if(sum>n)
-        return;
+    cout << "st " << st  << " " << idx << " "<< " len = "  << len << endl;
+    //if(printed)return;
 
-    if(sum > fsum && sum<n){
-        fsum = sum, till = idx;
-        for(int i=0; i<idx; i++){
-            ans2[i] = ans[i];
-           // pf("%d ",ans[i]);
-        }
-        //printf("\t%d\n",till);
-    }
+    if(flag) st = 0;
+    else flag = 1;
 
-    for(int i=j; i<t; i++){
-         if(flag) return;
-
+    for(int i=st; i<n; i++){
         if(!taken[i]){
-            int s = sum + v[i].first;
-            if(s <= n){
-               taken[i] = 1;
-               ans[idx] = v[i].second;
-               backTrack(idx+1, i+1, t, s);
-               taken[i] = false;
-            }
-
+            taken[i] = 1;
+            ans[idx] = arr[i];
+            backTrack(idx+1, st, len);
         }
+        taken[i] = 0;
     }
-
-
-
 }
 
 
 int main(){
 
-//    freopen("in.txt", "rt", stdin);
-//    freopen("out.txt", "wt", stdout);
+    freopen("in.txt","rt",stdin);
+//    freopen("out.txt","wt",stdout);
 
-    int t;
-    while( sf("%d %d",&n, &t) == 2){
-        int tsum = 0 ;
-        for(int i=0; i<=t; i++){
-            arr[i] = ans[i] = ans2[i] = taken[i] = 0;
-            flag=fsum=0;
+    fact();
+    int tc;
+    sf("%d",&tc);
+
+    while(tc--){
+        memset(taken, 0 ,sizeof(taken));
+        cin >> arr;
+//        cout << arr << endl;
+        cin >> n;
+        printed = 0;
+        flag=0;
+
+        int look = 0;
+        for(int i=0; i<22; i++){
+            if(f[i] < n && f[i+1] >= n){
+                look = i+1;
+            }
         }
 
-        for(int i=0; i<t; i++){
-            sf("%d",arr+i);
-            v.push_back(make_pair(arr[i],i));
-            tsum += arr[i];
-        }
-        sort(v.begin(),v.end());
-        if(tsum < n) {
-            for(int i=0; i<t; i++)pf("%d ",arr[i]);
-            pf("sum:%d\n",tsum);
-            v.clear();
-            continue;
-        }
+        int d = f[look]/look;
+        int p = n/d;
+        k = p*d;
 
-        backTrack(0,0,t,0);
-
-       sort(ans2,ans2+till);
-        for(int i=0; i<till; i++){
-            pf("%d ",arr[ans2[i]]);
-        }
-        pf("sum:%d\n",fsum);
-        v.clear();
+        int len = strlen(arr);
+//        cout << len << endl;
+        int st = p;
+        backTrack(0, st, len);
 
     }
 
 
     return 0;
 }
-
