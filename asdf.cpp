@@ -1,82 +1,54 @@
 #include<bits/stdc++.h>
-#define sf scanf
+#include<stdio.h>
 #define pf printf
+#define sf scanf
 
 using namespace std;
 
-int arr[1234],taken[1234], ans[1234], ans2[1234],fsum=0,till=0;
-bool flag=0;
+vector  <string> codes, names;
 
-void backTrack(int idx, int n, int t, int sum){
-    if(sum == n){
-        for(int i=0; i<idx; i++)pf("%d ",ans[i]);
-        pf("sum:%d\n",sum);
-        flag = 1;
-        return;
-    }
+void generate_idx( string nm){
+        string code = "";
+        code += nm[0];
+        int len = nm.size();
+        string num = "";
 
-    if(sum > fsum){
-        fsum = sum, till = idx;
-        for(int i=0; i<idx; i++){
-            ans2[i] = ans[i];
+        for( int i =0; i < len ; i++){
+            if(nm [i] == 'A' || nm[i] == 'E' ||
+            nm [i] == 'Y' || nm[i] == 'I'  ||
+            nm [i] == 'U' || nm[i] == 'O' ||
+            nm [i] == 'W' || nm[i] == 'H' || nm[i] == nm[i-1]) continue;
+
+            if((nm [i] == 'B' || nm[i] == 'P' || nm [i] == 'F' || nm[i] == 'V' )) num += '1';
+            else if(nm [i] == 'C' || nm[i] == 'S' || nm [i] == 'K' || nm[i] == 'G'  || nm [i] == 'J' || nm[i] == 'Q' || nm [i] == 'X' || nm[i] == 'Z') num += '2';
+            else if(nm[i] == 'D' || nm[i] == 'T') num += '3';
+            else if(nm[i] == 'L') num += '4';
+            else if(nm [i] == 'M' || nm[i] == 'N') num += '5';
+            else if(nm [i] == 'R') num += '6';
         }
-    }
 
-    for(int i=0; i<t; i++){
-         if(flag) continue;
-
-        if(!taken[i]){
-            int s = sum + arr[i];
-            if(s <= n){
-               taken[i] = 1;
-               ans[idx] = arr[i];
-               backTrack(idx+1, n, t, s);
+        int sz = num.size();
+        if(num.empty()) num += "000";
+        else{
+            for(int i=sz; i<3; i++){
+                num += '0';
             }
-            taken[i] = false;
+//            num[3] = '\0';
         }
-    }
-
-
+        code += num;
+        cout << code << endl;
 
 }
 
 
 int main(){
 
-//    freopen("in.txt", "rt", stdin);
-//    freopen("out.txt", "wt", stdout);
-
-    int n,t;
-    while( sf("%d %d",&n, &t) == 2){
-        int tsum = 0 ;
-        for(int i=0; i<=t; i++){
-            arr[i] = ans[i] = ans2[i] = taken[i] = 0;
-            flag=fsum=0;
-        }
-
-        for(int i=0; i<t; i++){
-            sf("%d",arr+i);
-            tsum += arr[i];
-        }
-
-        if(tsum < n) {
-            for(int i=0; i<t; i++)pf("%d ",arr[i]);
-            pf("sum:%d\n",tsum);
-            continue;
-        }
-
-        backTrack(0,n,t,0);
-
-        if(!flag){
-            for(int i=0; i<till; i++){
-                pf("%d ",ans2[i]);
-            }
-            pf("sum:%d\n",fsum);
-        }
-
-
-    }
-
+    generate_idx("KUHNE");
+    generate_idx("LEE");
+    generate_idx("EBELL");
+    generate_idx("EBELSON");
+    generate_idx("SCHAEFER");
+    generate_idx("SCHAAK");
 
     return 0;
 }
