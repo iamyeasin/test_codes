@@ -5,46 +5,37 @@
 
 using namespace std;
 
-int ans[1234];
+long long ans[1234];
 string num = "";
-long sq, k =0,c=0, sum = 1232345;
+long long sq, k =0,c=0, sum = 1232345;
 bool flag=0;
-long test=1;
-long N;
+long long N;
 
-bool isPrime(long n){
+bool isPrime(long long n){
     if(n <= 3) return true;
     if( !(n & 1) )return false;
 
-    for(int i=3; i*i <= n; i+=2){
+    for(long long i=3; i*i <= n; i+=2){
         if(!(n%i))return false;
     }
     return true;
 }
 
-void fn(long n ){
+void fn(long long n ){
     if(n < 10 || isPrime(n)){
         ans[k++] = n;
-        long s = 0;
-        test *= n;
-
-        if(test != N) {
-            cout << test << endl;
-        }
-
+        if(n > 10) return;
         sort(ans, ans+k);
-        for(int i=k-1; i>=0; i++){
-            s += (ans[i]* pow(10,i));
+        long long s=0,m=0;
+
+        for (long i=k-1; i>=0; i--){
+            s += (ans[m++] * pow ( 10 , i));
         }
-        if(s < sum ){
-            sum = s;
-        }
-        puts("");
+        if(s < sum) sum = s;
 
         flag = 1;
         return;
     }
-    cout << test << endl;
 
     if(flag)return;
 
@@ -52,7 +43,6 @@ void fn(long n ){
         if(flag) return;
         if(!(n%i)){
             ans[k++] = i;
-            test *= i;
             fn(n/i);
             return;
         }
@@ -62,23 +52,28 @@ void fn(long n ){
 
 int main(){
 
-    while(scanf("%d",&N) != EOF){
+    while(scanf("%lld",&N) != EOF){
         if(!N) { pf("10\n"); continue; }
         if(N < 10){
-            pf("%d\n",N);
+            pf("%lld\n",N);
+            continue;
+        }
+        if(isPrime(N)){
+            pf("-1\n");
             continue;
         }
 
-        for(int i=2; i*i<N; i++){
-            num = "";
+
+        for(long long i=2; i*i<=N; i++){
             if(!(N%i)){
                 ans[k++] = i;
-                test *= i;
                 fn(N/i);
             }
             k=0,flag =0,c =0;
-//        cout << sum << endl;
         }
+        if(sum != 1232345) pf("%lld\n",sum);
+        else pf("-1\n");
+        sum = 1232345;
 
     }
     return 0;
