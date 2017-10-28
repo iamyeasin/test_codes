@@ -6,8 +6,7 @@
 using namespace std;
 
 long long ans[1234];
-string num = "";
-long long sq, k =0,c=0, sum = 1232345;
+unsigned long long sq, k =0,c=0, sum = 9999999999999999;
 bool flag=0;
 long long N;
 
@@ -23,16 +22,17 @@ bool isPrime(long long n){
 
 void fn(long long n ){
     if(n < 10 || isPrime(n)){
+        if(n>10)return;
+
         ans[k++] = n;
-        if(n > 10) return;
         sort(ans, ans+k);
-        long long s=0,m=0;
+        long long s=0,check=1,m=0;
 
-        for (long i=k-1; i>=0; i--){
-            s += (ans[m++] * pow ( 10 , i));
+        for (long i=0; i<k; i++){
+            s = 10 * s + ans[i];
         }
-        if(s < sum) sum = s;
 
+        if(s < sum) sum = s;
         flag = 1;
         return;
     }
@@ -63,17 +63,17 @@ int main(){
             continue;
         }
 
-
-        for(long long i=2; i*i<=N; i++){
+        for(long long i=2; i<=9; i++){
             if(!(N%i)){
                 ans[k++] = i;
                 fn(N/i);
             }
             k=0,flag =0,c =0;
         }
-        if(sum != 1232345) pf("%lld\n",sum);
+        if(sum != 9999999999999999) pf("%lld\n",sum);
         else pf("-1\n");
-        sum = 1232345;
+        sum = 9999999999999999;
+
 
     }
     return 0;
