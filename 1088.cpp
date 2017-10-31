@@ -1,69 +1,31 @@
-#include<stdio.h>
+#include<bits/stdc++.h>
+#define sf scanf
+#define pf printf
 
-int arr[123456];
-int hi,lo;
-int flag = 0;
+using namespace std;
 
+long n;
+long long ans[12345678];
+int gcd(int a, int b){
+	if(!b) return a;
+	else return gcd(b, a % b);
+}
 
-int get_ind(int n){ // 0 based index will return
-    int l = 0;
-    int h = hi-1;
+void make_answer(){
+    ans[0] = 0;
+    ans[1] = 1;
+    ans[2] = 2;
 
-    flag = 0    ;
-    if(arr[l] == n ) { return l; }
-    if(arr[h] <= n ) { return h; }
-
-    while(l < h){
-        int mid = (l+h)/2;
-        int ne = (l-h) < 0 ? (h-l) : (l-h) ;
-        if( ne == 1 && arr[mid] != n){
-            if(arr[l] < arr[h]) return mid;
-        }
-
-        if( arr[mid] == n ){return mid;}
-        else if( arr[mid] < n) l = mid;
-        else h = mid;
+    for(int i=3; i<= 100001; i++){
+        ans[i] = ((ans[i-1] * i) )/ gcd(ans[i-1] , i);
     }
-
 }
 
 
 int main(){
-//    freopen("in.txt","rt",stdin);
-//    freopen("out.txt","wt",stdout);
-
-    int kase,minR;
-    scanf("%d",&kase);
-
-    for(int i=1; i<=kase; i++){
-        int n,q;
-        scanf("%d %d",&hi,&q);
-
-        for(int m=0; m<hi; m++){
-            scanf("%d",&arr[m]);
-        }
-        printf("Case %d:\n",i);
-        for(int j=1; j<=q; j++){
-            int x,y;
-            scanf("%d %d",&x,&y);
-
-            int pos1 = get_ind(x);
-            int pos2 = get_ind(y);
-
-            minR = (pos2-pos1);
-            if(minR > 0) minR -= 1;
-
-            if(x <= arr[pos1]) minR += 1;
-            if(y >= arr[pos2]) minR += 1;
-            if(minR > 0 && (pos1 == pos2)) minR--;
-
-            printf("%d\n",minR);
-            minR = 0;
-        }
-
+    make_answer();
+    while( sf("%d",&n) ){
     }
 
-
     return 0;
-
 }
