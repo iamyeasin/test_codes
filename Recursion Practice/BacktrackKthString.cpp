@@ -6,6 +6,7 @@ using namespace std;
 
 vector<bool>A(5,0);
 
+/// Complexity O(2T(n-1) + d ), where n >= 0, otherwise O ( C )
 void binarys( int n ){
     if( n < 1 ){
         for(bool i: A){
